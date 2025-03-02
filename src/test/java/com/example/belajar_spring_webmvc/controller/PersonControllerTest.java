@@ -52,8 +52,6 @@ class PersonControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("middleName", "Dwi")
                         .param("lastName", "Mahardika")
-                        .param("email", "yossia@example.com")
-                        .param("phone", "08123456789")
                         .param("address.street", "Jl. Batu 1 No. 1")
                         .param("address.city", "Bandung")
                         .param("address.country", "Indonesia")
@@ -64,7 +62,8 @@ class PersonControllerTest {
                         .param("socialMedias[0].name", "Instagram")
                         .param("socialMedias[0].location", "https://instagram.com/yossia.dwi.mahardika")
         ).andExpectAll(
-                status().isBadRequest()
+                status().isBadRequest(),
+                content().string(Matchers.containsString("You send invalid data"))
         );
     }
 }

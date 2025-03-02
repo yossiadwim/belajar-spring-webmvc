@@ -1,7 +1,10 @@
 package com.example.belajar_spring_webmvc.controller;
 
+import com.example.belajar_spring_webmvc.model.User;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,9 +27,12 @@ public class AuthController {
     public ResponseEntity<String> login(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
+            HttpServletRequest servletRequest,
             HttpServletResponse servletResponse
     ){
         if ("Yossia".equals(username) && "1234".equals(password)) {
+            HttpSession session = servletRequest.getSession(true);
+            session.setAttribute("username", new User(username));
             Cookie cookie = new Cookie("username", username);
             cookie.setPath("/");
             servletResponse.addCookie(cookie);
